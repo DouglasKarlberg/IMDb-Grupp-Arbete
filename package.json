@@ -1,0 +1,17 @@
+{
+  "name": "sel-cucumber-template",
+  "version": "1.0.0",
+  "description": "A template for using cucumber and selenium",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test-runner.js && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "jquery": "^3.3.1",
+    "selenium-cucumber-js": "^1.7",
+    "express": "^4.16.4"
+  }
+}
