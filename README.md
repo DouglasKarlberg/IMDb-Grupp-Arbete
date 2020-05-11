@@ -5,6 +5,6 @@ This is an ongoing project focused on selenium testing with javascript and gherk
 
 Group contains of 3 members:
 
-DouglasKarlberg = Douglas Karlberg
-sul77 = Sultan Mohammad
+DouglasKarlberg = Douglas Karlberg,
+sul77 = Sultan Mohammad,
 mohamadaoud = Mohamad Daoud
