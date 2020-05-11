@@ -1,3 +1,6 @@
 node_modules
 .DS_Store
+reports/*.json
+reports/*.html
+reports/*.xml
 credentials.json
