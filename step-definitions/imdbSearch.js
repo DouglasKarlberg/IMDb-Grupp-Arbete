@@ -2,7 +2,7 @@ let { $, sleep } = require('./funcs');
 
 module.exports = function () {
 
-  let sleepTime = 1000;
+  let sleepTime = 0;
 
   //================= SCENARIO: 'Searching for something that doesn't exist using click' BEGINS =================
   //Given that I am on IMDb's website
@@ -70,4 +70,37 @@ module.exports = function () {
   });
 
   //================= SCENARIO: 'Searching for something that doesn't exist using ENTER' ENDS =================
+
+  //================= SCENARIO: 'Navigate search suggestions and then press ENTER to load given suggestion' BEGINS =================
+
+  //When I type search text "The Shining"
+  this.When(/^I type search text "([^"]*)"$/, async function (inputText) {
+    let imdbSearchField = await $('input[placeholder="Search IMDb"]');  //imdbSearchField receives document.querySelector('input[placeholder="Search IMDb"]')
+    expect(imdbSearchField, 'Search Field was not found');              //Expect imdbSearchField to exist/be true or basically not false or null 
+    await imdbSearchField.sendKeys(inputText);                          //Send keys "The Shining" to imdbSearchField
+    await sleep(500);                                                   //Delay 0.5 seconds (Probably not necessary)
+  });
+
+  //And then press down arrow + ENTER
+  this.When(/^then press down arrow \+ ENTER$/, async function () {
+    let imdbSearchField = await $('input[placeholder="Search IMDb"');   //imdbSearchField receives document.querySelector('input[placeholder="Search IMDb"]')
+    await sleep(1000);                                                  //Delay 1 Seond OBSERVE! This is necessary for it takes around <1 second for suggestions to load
+    await imdbSearchField.sendKeys(selenium.Key.ARROW_DOWN);            //Send key ARROW_DOWN to imdbSearchField
+    await sleep(sleepTime);                                             //Delay
+    await imdbSearchField.sendKeys(selenium.Key.ENTER);                 //Send key ENTER to imdbSearchField
+    await sleep(sleepTime);                                             //Delay
+  });
+
+  //Then I should be taken to the detail page of "The Shining"
+  this.Then(/^I should be taken to the detail page of "([^"]*)"$/, async function (inputText) {
+    await driver.wait(until.elementLocated(By.css('.title_wrapper')));  //Wait for element css '.title_wrapper' to be located (basically just wait for it to load)
+                                                                        //This wait method is used because it's not a garantee that the detail page will load at
+                                                                        //the same speed on different computers, so use this is a better alternative to sleep mehtod
+    let titleWrapper = await $('div[class="title_wrapper"]')            //'titleWrapper' receives document.querySelector('div[class="title_wrapper"]')
+    let titleWrapperGetText = await titleWrapper.getText();             //titleWrapperGetText receives text content from within titleWrapper
+    titleWrapperSliced = titleWrapperGetText.slice(0, 11);              //titleWrapperSliced receives titleWrapperGetText's string but sliced to "The Shining"
+    expect(titleWrapperSliced).to.include(inputText);                   //Expect titleWrapperSliced to include inputText which is "The Shining"
+  });
+
+  //================= SCENARIO: 'Navigate search suggestions and then press ENTER to load given suggestion' ENDS =================
 }
