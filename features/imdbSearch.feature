@@ -14,7 +14,7 @@ Feature: IMDb's Search Field
     When I type search text "löäkpälkadawjd" + ENTER
     Then the search result should contain the message "No results found for "
 
-    Scenario: Navigate search suggestions and then press ENTER to load given suggestion
+  Scenario: Navigate search suggestions and then press ENTER to load given suggestion
     Given that I am on IMDbs website
     When I type search text "The Shining"
     And then press down arrow + ENTER
