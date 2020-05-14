@@ -5,10 +5,10 @@ module.exports = function () {
   let sleepTime = 0;
 
   //================= SCENARIO: 'When I visit a trailer to watch' =================
-  this.Given(/^that I am on IMDbs website$/, async function () {
-    await helpers.loadPage('https://www.imdb.com');        //Load an IMDB URL page
-    await sleep(sleepTime);                                //delays to the given amount of time 'sleepTime' is set to
-  });
+
+  /////////////////////////////////////
+  //Given that I am on IMDbs website
+  /////////////////////////////////////
 
   this.When(/^I click to browse trailers$/, async function () {
     await helpers.loadPage('https://www.imdb.com/trailers/?ref_=hm_hp_sm');       //Load an IMDB URL browse trailers' page

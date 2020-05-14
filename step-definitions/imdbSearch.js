@@ -44,10 +44,10 @@ module.exports = function () {
   //================= SCENARIO: 'Searching for something that doesn't exist using click' ENDS =================
 
   //================= SCENARIO: 'Searching for something that doesn't exist using ENTER' BEGINS =================
+ 
+  /////////////////////////////////////
   //Given that I am on IMDb site
-  this.Given(/^that I am on IMDb site$/,  function () {
-
-  });
+  /////////////////////////////////////
 
   //When I type search text "löäkpälkadawjd" and presses ENTER
   this.When(/^I type search text "([^"]*)" \+ ENTER$/, async function (badInputText2) {

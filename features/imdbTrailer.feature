@@ -2,7 +2,7 @@ Feature: Visit a trailer and explore it
 
 
   Scenario: When I visit a trailer to watch
-    Given that I am on the IMDB site
+    Given that I am on IMDbs website
     When I click to browse trailers
     And click on any trailer and watch if it plays
 
