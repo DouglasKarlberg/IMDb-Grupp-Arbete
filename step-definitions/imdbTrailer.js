@@ -26,6 +26,7 @@ module.exports = function () {
   });
 
   //================= SCENARIO: 'When I visit a trailer and pause it once it plays' =================
+
   this.Given(/^that I am on IMDB site trailers page$/, async function () {
     await helpers.loadPage('https://www.imdb.com/trailers/?ref_=hm_hp_sm');       //Load an IMDB URL browse trailers' page
     await sleep(3000);                                                            //delays here is set to 3 seconds
@@ -55,6 +56,8 @@ module.exports = function () {
     await sleep(8000);
 
   });*/
+
+  //================= 'I wanted to find out more about the trailer's movie' =================
 
   this.When(/^click on any trailer$/, async function () {
     await helpers.loadPage('https://www.imdb.com/video/vi686013977?ref_=vi_tr_tr_vp_2');       //Load an IMDB URL browse trailers' page
