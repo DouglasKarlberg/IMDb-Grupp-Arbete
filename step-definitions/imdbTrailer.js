@@ -47,14 +47,13 @@ module.exports = function () {
     await helpers.loadPage('https://www.imdb.com/video/vi3319512601?ref_=vi_tr_tr_vp_1');
     await sleep(2000);
     let clickedTrailer = await $('#imdb-jw-video-1');
-    let muteButton = await $('div[aria-label="Volume"]');
-    //let muteButton = await driver.findElement(By.css('#jw-icon-volume'));
+    let muteButton = await driver.findElement(By.css('svg.jw-svg-icon'));
     expect(clickedTrailer, 'Play button was not found');
     expect(muteButton, 'Volume button was not found');
     await muteButton.click();
     await clickedTrailer.click();
     await sleep(8000);
-
+  
   });*/
 
   //================= 'I wanted to find out more about the trailer's movie' =================
