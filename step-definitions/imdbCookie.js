@@ -26,4 +26,12 @@ module.exports = function () {
     await sleep(3000);                                                                        //delays here is set to 3 seconds
   });
 
+  this.Then(/^click on the card under 'Recently viewed' for the movie's page you just left$/, async function () {
+    let recentViewdButton = await driver.wait(until.elementLocated(By.linkText('Gisaengchung')));
+    expect(recentViewdButton, 'Recent Viewed button was not found');
+    await recentViewdButton.click();
+    await sleep(5000);
+
+  });
+
 }
