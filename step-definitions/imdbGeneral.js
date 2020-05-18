@@ -29,9 +29,6 @@ module.exports = function () {
   });
 
 
-
-
-
   // click on born today card
   this.When(/^I click on born today card$/, async function () {
     let pagebody = await $('body');
@@ -53,9 +50,32 @@ module.exports = function () {
     await sleep(1000);
     let personDetail = await $('td[class="name-overview-widget"]');
     expect(personDetail, 'Doesn´t exist');
+    await sleep(2000);
+  });
+  //Click on top news
+  this.When(/^I click on on top news$/, async function () {
+    let pagebody = await $('body');
+    await sleep(1000);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(1000);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(1000);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(1000);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(1000);
+    let clickTopNews = await driver.findElement(By.linkText('Top news'));
+    expect(clickTopNews, 'couldn´t find top news');
+    await clickTopNews.click();
+    await sleep(3000);
+  });
 
+  // come to top news page
+  this.Then(/^It should take me to detail page$/, async function () {
+    await sleep(1000);
+    let personDetail = await $('h1[class="news-page__title"]');
+    expect(personDetail, 'Doesn´t exist');
     await sleep(2000);
 
   });
-
 };
