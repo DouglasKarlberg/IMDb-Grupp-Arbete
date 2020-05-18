@@ -19,3 +19,9 @@ Feature: IMDb's Search Field
     When I type search text "The Shining"
     And then press down arrow + ENTER
     Then I should be taken to the detail page of "The Shining"
+
+Scenario: Search for an existing movies 
+    Given that I am on IMDbs website
+    When I search for an existing movie "John Wick"
+    And click the search button
+    Then the search result should show result of "John Wick"
