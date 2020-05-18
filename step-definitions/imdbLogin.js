@@ -52,7 +52,7 @@ module.exports = function () {
         let inputWindowEmail = await $('input[name="email"]');
         expect(inputWindowEmail, 'Email input window was not found');
         await inputWindowEmail.sendKeys(email);         //Type in first part of email which comes from credentialsP1.json
-        await sleep(5000);                          //Wait 4 seconds
+        await sleep(5000);                              //Wait 5 seconds
     });
 
     //And then click on password input window
@@ -66,7 +66,7 @@ module.exports = function () {
         let inputWindowPassword = await $('input[name="password"]');
         expect(inputWindowPassword, 'Password input window was not found');
         await inputWindowPassword.sendKeys(password);   //Type in first part of password which comes from credentialsP1.json
-        await sleep(5000);                          //Wait 4 seconds
+        await sleep(5000);                              //Wait 5 seconds
     });
 
     //And click on Sign-In
@@ -79,18 +79,11 @@ module.exports = function () {
 
     //Then my username should appear up in right corner
     this.Then(/^my username should appear up in right corner$/, async function () {
-        let accountName = await $('span[class="imdb-header__account-toggle--logged-in imdb-header__accountmenu-toggle navbar__user-name navbar__user-menu-toggle__name navbar__user-menu-toggle--desktop"]');
-        let importantMessage = await $('h4[class="a-alert-heading"]');
-        if(importantMessage = null) {                                                       //Just made an if statement to check if important message comes up 
-            let accountNameGetText = await accountName.getText();                           //then it should still succed this step. I don't know how to deal with the captcha
-            expect(accountNameGetText).to.include(username)                                 //But this step works if captcha doesnt come up when I try to sign in
-            await sleep(sleepTime);
-        } if (accountName = null){
-            let importantMessageGetText = await importantMessage.getText();
-            expect(importantMessageGetText).to.include("Important Message!")
-            await sleep(sleepTime);
-        }
-
+        await driver.wait(until.elementLocated(By.css('.ipc-button__text')));
+        let accountName = await $('label[aria-label="Toggle Acount Menu"]');
+        expect(accountName, 'User name on up right corner was not found');
+        let accountNameGetText = await accountName[1].getText();
+        expect(accountNameGetText).to.include(username);
     });
 
 
@@ -190,11 +183,11 @@ module.exports = function () {
 
     //Then I click on my username up in right corner
     this.Then(/^I click on my username up in right corner$/, async function () {
-        await sleep(3000);
+        await driver.wait(until.elementLocated(By.css('.ipc-button__text'))); 
         let userNameToggleMenu = await $('label[aria-label="Toggle Acount Menu"]')//Since there are 2 label[aria-label="Toggle Acount Menu"] in an array
         expect(userNameToggleMenu, 'Toggle Acount Menu was not found');
         userNameToggleMenu[1].click();                                            //I click on the second element instead of the first one, because the second element highlights the button
-        await sleep(2000);
+        await sleep(sleepTime);
     });
 
     //Then I click on Your activity
@@ -221,7 +214,7 @@ module.exports = function () {
         let bioTextWindow = await $('textarea[name="bio"]');
         expect(bioTextWindow, 'Bio text window was not found');
         await bioTextWindow.click();
-        await sleep(3000);
+        await sleep(500);
     });
 
     //Then I type in any sample text into the bio
@@ -229,7 +222,7 @@ module.exports = function () {
         let bioTextWindow = await $('textarea[name="bio"]');
         expect(bioTextWindow, 'Bio text window was not found');
         await bioTextWindow.sendKeys("Sample text bio");
-        await sleep(2000);
+        await sleep(sleepTime);
     });
 
     //Then I click on Save Description
@@ -238,12 +231,13 @@ module.exports = function () {
         let saveDescButton2 = await $('div[class="auth-button-link auth-button--primary"]');
         expect(saveDescButton2, 'Save Description button was not found');
         await saveDescButton2.click();
-        await sleep(2000);
+        await sleep(500);
     });
 
     //Then my sample text should appear on my profile
     this.Then(/^then my sample text should appear on my profile$/, async function () {
         await driver.wait(until.elementLocated(By.css('div[class="header"]')));
+        await driver.wait(until.elementLocated(By.css('h1')));
         let bioText = await $('div[class="toggle-overflow biography markdown"]');
         expect(bioText, 'Bio text was not found');
         let bioTextGetText = await bioText.getText();
@@ -264,10 +258,10 @@ module.exports = function () {
         await driver.wait(until.elementLocated(By.css('div[data-userbio]')));
         let bioTextWindow = await $('textarea[name="bio"]');
         expect(bioTextWindow, 'Bio Text Window was not found');
-        bioTextWindow.sendKeys(selenium.Key.CONTROL, 'a');
+        bioTextWindow.sendKeys(selenium.Key.CONTROL, 'a');      //Send in CTRL + A
         await sleep(1000);
-        bioTextWindow.sendKeys(selenium.Key.DELETE);
-        await sleep(3000);
+        bioTextWindow.sendKeys(selenium.Key.DELETE);            //Send in DELETE this works like backspace in this case
+        await sleep(500);
     });
 
     ///////////////////////////////////
@@ -308,7 +302,7 @@ module.exports = function () {
         let AccountSettingsButton = await driver.findElement(By.partialLinkText('Account settings'));
         expect(AccountSettingsButton, '"Account settings" was not found');
         await AccountSettingsButton.click();
-        await sleep(1500);  
+        await sleep(sleepTime);  
     });
 
     //Then I click on login & security
@@ -390,7 +384,7 @@ module.exports = function () {
         let doneButton = await driver.findElement(By.partialLinkText('Done'));
         expect(doneButton, 'Done button was not found');
         await doneButton.click();
-        await sleep(1000);
+        await sleep(200);
         return true;
     });
 
@@ -483,7 +477,7 @@ module.exports = function () {
         let currentPwWindow = await $('input[id="ap_password"]');
         expect(currentPwWindow, 'Current password input window was not found');
         await currentPwWindow.sendKeys("SeleniumNewPW123");
-        await sleep(1000);
+        await sleep(sleepTime);
     });
 
     ///////////////////////////////////
@@ -495,7 +489,7 @@ module.exports = function () {
         let newPwWindow = await $('input[id="ap_password_new"]');
         expect(newPwWindow, 'New password input window was not found');
         await newPwWindow.sendKeys(password);
-        await sleep(1000);
+        await sleep(sleepTime);
     });
 
     ///////////////////////////////////
@@ -507,7 +501,7 @@ module.exports = function () {
         let newPwWindowCheck = await $('input[id="ap_password_new_check"]');
         expect(newPwWindowCheck, 'Reenter new password input window was not found');
         await newPwWindowCheck.sendKeys(password);
-        await sleep(1000);
+        await sleep(sleepTime);
     });
 
     ///////////////////////////////////
@@ -537,4 +531,151 @@ module.exports = function () {
     ///////////////////////////////////
 
     //================= SCENARIO: 'Change back to old password again' ENDS =================
+
+    //================= SCENARIO: 'Changing IMDb user ID' BEGINS =================
+
+    ///////////////////////////////////
+    //Given that I am on IMDbs website
+    ///////////////////////////////////
+    //When I click Sign in button
+    ///////////////////////////////////
+    //Then I should be taken to page with sign in options
+    ///////////////////////////////////
+    //When I click on Sign in with IMDb button
+    ///////////////////////////////////
+    //Then I should be taken to sign in page
+    ///////////////////////////////////
+    //When I click on Email input window
+    ///////////////////////////////////
+    //And type in my email address
+    ///////////////////////////////////
+    //And then click on Password input window
+    ///////////////////////////////////
+    //And type in my password
+    ///////////////////////////////////
+    //And click on Sign-In
+    ///////////////////////////////////
+    //Then I click on my usename up in right corner
+    ///////////////////////////////////
+    //And then I click on Your activity
+    ///////////////////////////////////
+    //And then I click on Edit profile
+    ///////////////////////////////////
+
+    //Then I click on Edit for User ID
+    this.Then(/^then I click on Edit for User ID$/, async function () {
+        await driver.wait(until.elementLocated(By.css('div[class="auth-input-container"]')));
+        let editButton = await driver.findElement(By.partialLinkText('Edit'));
+        expect(editButton, 'Edit button was not found');
+        await editButton.click();
+        await sleep(sleepTime);
+    })
+
+    //Then I click on User ID input window
+    this.Then(/^then I click on User ID input window$/, async function () {
+        await driver.wait(until.elementLocated(By.css('form[method="POST"]')));
+        let userIdInputWindow = await $('input[class="auth-input--input"]');
+        expect(userIdInputWindow, 'User ID input window was not found');
+        await userIdInputWindow.click();
+        await sleep(sleepTime);
+    });
+
+    //Then replace it with new User ID
+    this.Then(/^replace it with new User ID$/, async function () {
+        let userIdInputWindow = await $('input[class="auth-input--input"]');
+        expect(userIdInputWindow, 'User ID input window was not found');
+        userIdInputWindow.sendKeys(selenium.Key.CONTROL, 'a');
+        await sleep(500);
+        userIdInputWindow.sendKeys(selenium.Key.DELETE);
+        await sleep(500);
+        userIdInputWindow.sendKeys("newseleniumimdb");
+    });
+
+    //Then I click on Save changes
+    this.Then(/^then I click on Save changes$/, async function () {
+        let saveChangesButton = await $('input[class="pretty_btn"]');
+        expect(saveChangesButton, 'Save Changes button was not found');
+        await saveChangesButton.click();
+    });
+
+    ///////////////////////////////////
+    //Then I click on my username up in right corner
+    ///////////////////////////////////
+    //And then I click on Your activity
+    ///////////////////////////////////
+
+    //Then my ID should be change on profile to new ID
+    this.Then(/^my ID should be changed on profile to new ID$/, async function () {
+        await driver.wait(until.elementLocated(By.css('.header')));
+        let h1 = await $('h1');
+        let h1GetText = await h1[0].getText();
+        expect(h1GetText).to.include("newseleniumimdb", 'User ID was not changed or not found');
+        await sleep(sleepTime);
+    });
+
+    //================= SCENARIO: 'Changing IMDb user ID' ENDS =================
+
+    //================= SCENARIO: 'Changing IMDb user ID back to previous ID' BEGINS =================
+
+    ///////////////////////////////////
+    //Given that I am on IMDbs website
+    ///////////////////////////////////
+    //When I click Sign in button
+    ///////////////////////////////////
+    //Then I should be taken to page with sign in options
+    ///////////////////////////////////
+    //When I click on Sign in with IMDb button
+    ///////////////////////////////////
+    //Then I should be taken to sign in page
+    ///////////////////////////////////
+    //When I click on Email input window
+    ///////////////////////////////////
+    //And type in my email address
+    ///////////////////////////////////
+    //And then click on Password input window
+    ///////////////////////////////////
+    //And type in my password
+    ///////////////////////////////////
+    //And click on Sign-In
+    ///////////////////////////////////
+    //Then I click on my usename up in right corner
+    ///////////////////////////////////
+    //And then I click on Your activity
+    ///////////////////////////////////
+    //And then I click on Edit profile
+    ///////////////////////////////////
+    //And then I click on Edit for User ID
+    ///////////////////////////////////
+    //And then I click on User ID input window
+    ///////////////////////////////////
+
+    //And replace it with old User ID again
+    this.Then(/^replace it with old User ID again$/, async function () {
+        let userIdInputWindow = await $('input[class="auth-input--input"]');
+        expect(userIdInputWindow, 'User ID input window was not found');
+        userIdInputWindow.sendKeys(selenium.Key.CONTROL, 'a');
+        await sleep(500);
+        userIdInputWindow.sendKeys(selenium.Key.DELETE);
+        await sleep(500);
+        userIdInputWindow.sendKeys(username);
+    });
+
+    ///////////////////////////////////
+    //And then I click on Save changes
+    ///////////////////////////////////
+    //Then I click on my username up in right corner
+    ///////////////////////////////////
+    //And then I click on Your activity
+    ///////////////////////////////////
+
+    //And my ID should be changed on profile back to old ID
+    this.Then(/^my ID should be changed on profile back to old ID$/, async function () {
+        await driver.wait(until.elementLocated(By.css('.header')));
+        let h1 = await $('h1');
+        let h1GetText = await h1[0].getText();
+        expect(h1GetText).to.include(username, 'User ID was not changed or not found');
+        await sleep(sleepTime);
+    });
+
+    //================= SCENARIO: 'Changing IMDb user ID back to previous ID' ENDS =================
 }

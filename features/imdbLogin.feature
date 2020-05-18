@@ -120,3 +120,48 @@ Feature: Login and account
      And type in my password
      And click on Sign-In
      Then my username should appear up in right corner
+
+   Scenario: Changing IMDb user ID
+    Given that I am on IMDbs website
+    When I click Sign in button
+    Then I should be taken to page with sign in options
+    When I click on Sign in with IMDb button
+    Then I should be taken to sign in page
+    When I click on Email input window
+    And type in my email address
+    And then click on Password input window
+    And type in my password
+    And click on Sign-In
+    Then I click on my username up in right corner
+    And then I click on Your activity
+    And then I click on Edit profile
+    And then I click on Edit for User ID
+    And then I click on User ID input window
+    And replace it with new User ID
+    And then I click on Save changes
+    Then I click on my username up in right corner
+    And then I click on Your activity
+    And my ID should be changed on profile to new ID
+
+   Scenario: Changing IMDb user ID back to previous ID
+    Given that I am on IMDbs website
+    When I click Sign in button
+    Then I should be taken to page with sign in options
+    When I click on Sign in with IMDb button
+    Then I should be taken to sign in page
+    When I click on Email input window
+    And type in my email address
+    And then click on Password input window
+    And type in my password
+    And click on Sign-In
+    Then I click on my username up in right corner
+    And then I click on Your activity
+    And then I click on Edit profile
+    And then I click on Edit for User ID
+    And then I click on User ID input window
+    And replace it with old User ID again
+    And then I click on Save changes
+    Then I click on my username up in right corner
+    And then I click on Your activity
+    And my ID should be changed on profile back to old ID
+
