@@ -2,7 +2,7 @@ Feature: Visit a trailer and explore it
 
   Scenario: When I visit a trailer to watch
     Given that I am on IMDbs website
-    When I click to browse trailers
+    When I want to browse trailers
     And click on any trailer and watch if it plays
 
   Scenario: When I visit a trailer and pause it once it plays

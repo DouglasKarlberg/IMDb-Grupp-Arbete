@@ -11,8 +11,9 @@ module.exports = function () {
   /////////////////////////////////////
 
   this.When(/^I click to browse trailers$/, async function () {
-    await helpers.loadPage('https://www.imdb.com/trailers/?ref_=hm_hp_sm');       //Load an IMDB URL browse trailers' page
-    await sleep(3000);                                                            //delays here is set to 3 seconds
+    let trailersButton = await $('a[class="ipc-link ipc-link--baseAlt AutorotateVideoCarouselstyles__BrowseTrailersLink-uu2ba1-4 iBfKYG"]');  //assign 'trailersButton' to the query selector
+    expect(trailersButton, 'browse trailers button was not found');                                                                           //throws an error if the query selector was not found by using expect
+    await trailersButton.click();                                                                                                             //click method, when 'Browse trailers has been clicked
   });
 
 
