@@ -4,4 +4,3 @@ reports/*.json
 reports/*.html
 reports/*.xml
 credentials.json
-credentialsSecret.json
