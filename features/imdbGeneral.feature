@@ -13,3 +13,11 @@ Feature: General
     Given that I am on IMDbs website
     When I click on any card what to watch today
     Then I should see detail page
+
+  Scenario: Click on born today card
+    Given that I am on IMDbs website
+    When I click on born today card
+    Then it should take me to detail page
+
+
+
