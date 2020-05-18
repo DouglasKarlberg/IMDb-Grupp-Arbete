@@ -30,9 +30,9 @@ module.exports = function () {
 
 
 
-  //pagebody.sendKeys(selenium.Key.PAGE_DOWN);
 
 
+  // click on born today card
   this.When(/^I click on born today card$/, async function () {
     let pagebody = await $('body');
     await sleep(1000);
@@ -48,7 +48,7 @@ module.exports = function () {
     await sleep(3000);
 
   });
-
+  // check that i am on born today detail page
   this.Then(/^it should take me to detail page$/, async function () {
     await sleep(1000);
     let personDetail = await $('td[class="name-overview-widget"]');
