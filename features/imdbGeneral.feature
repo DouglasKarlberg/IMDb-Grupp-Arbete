@@ -19,5 +19,8 @@ Feature: General
     When I click on born today card
     Then it should take me to detail page
 
-
+  Scenario: I click on top news
+    Given that I am on IMDbs website
+    When I click on on top news
+    Then It should take me to detail page
 
