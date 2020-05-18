@@ -275,4 +275,266 @@ module.exports = function () {
     ///////////////////////////////////
     
     //================= SCENARIO: 'Add and change bio text on edit profile' ENDS =================
+
+    //================= SCENARIO: 'Change password and log in with new password' BEGINS =================
+
+    ///////////////////////////////////
+    //Given that I am on IMDbs website
+    ///////////////////////////////////
+    //When I click Sign in button
+    ///////////////////////////////////
+    //Then I should be taken to page with sign in options
+    ///////////////////////////////////
+    //When I click on Sign in with IMDb button
+    ///////////////////////////////////
+    //Then I should be taken to sign in page
+    ///////////////////////////////////
+    //When I click on Email input window
+    ///////////////////////////////////
+    //And type in my email address
+    ///////////////////////////////////
+    //And then click on Password input window
+    ///////////////////////////////////
+    //And type in my password
+    ///////////////////////////////////
+    //And click on Sign-In
+    ///////////////////////////////////
+    //Then I click on my username up in right corner//
+    ///////////////////////////////////
+
+    //Then I click on Account settings
+    this.Then(/^then I click on Account settings$/, async function () {
+        await driver.wait(until.elementLocated(By.css('a[role="menuitem"]')));                 
+        let AccountSettingsButton = await driver.findElement(By.partialLinkText('Account settings'));
+        expect(AccountSettingsButton, '"Account settings" was not found');
+        await AccountSettingsButton.click();
+        await sleep(1500);  
+    });
+
+    //Then I click on login & security
+    this.Then(/^then I click on Login & security$/, async function () {
+        await driver.wait(until.elementLocated(By.css('div[class="article"]')));
+        let loginAndSecurityButton = await driver.findElement(By.partialLinkText('Login and security'));
+        expect(loginAndSecurityButton, '"Login and security" was not found');
+        await loginAndSecurityButton.click();
+        await sleep(1000);
+    });
+
+    //Then I click on Edit for password
+    this.Then(/^then I click on Edit for password$/, async function () {
+        let editPasswordButton = await $('input[id="auth-cnep-edit-password-button"]');
+        expect(editPasswordButton, 'Edit button was not found');
+        await editPasswordButton.click();
+        await sleep(1000);
+    });
+
+    //Then I click on Current password input window
+    this.Then(/^then I click on Current password input window$/, async function () {
+        await driver.wait(until.elementLocated(By.css('div[class="a-box"]')));
+        let currentPwWindow = await $('input[id="ap_password"]');
+        expect(currentPwWindow, 'Current password input window was not found');
+        await currentPwWindow.click();
+        await sleep(1000);
+    });
+
+    //Then type in my current password
+    this.Then(/^type in my current password$/, async function () {
+        let currentPwWindow = await $('input[id="ap_password"]');
+        expect(currentPwWindow, 'Current password input window was not found');
+        await currentPwWindow.sendKeys(password);
+        await sleep(1000);
+    });
+
+    //Then I click on New Password input window
+    this.Then(/^then I click on New Password input window$/, async function () {
+        let newPwWindow = await $('input[id="ap_password_new"]');
+        expect(newPwWindow, 'New password input window was not found');
+        await newPwWindow.click();
+        await sleep(1000);
+    });
+
+    //Then type in new password
+    this.Then(/^type in new password$/, async function () {
+        let newPwWindow = await $('input[id="ap_password_new"]');
+        expect(newPwWindow, 'New password input window was not found');
+        await newPwWindow.sendKeys("SeleniumNewPW123");
+        await sleep(1000);
+    });
+
+    //Then click on Reenter new password input window
+    this.Then(/^then click on Reenter new password input window$/, async function () {
+        let newPwWindowCheck = await $('input[id="ap_password_new_check"]');
+        expect(newPwWindowCheck, 'Reenter new password input window was not found');
+        await newPwWindowCheck.click();
+        await sleep(1000);
+    });
+
+    //Then type in new password again
+    this.Then(/^type in new password again$/, async function () {
+        let newPwWindowCheck = await $('input[id="ap_password_new_check"]');
+        expect(newPwWindowCheck, 'Reenter new password input window was not found');
+        await newPwWindowCheck.sendKeys("SeleniumNewPW123");
+        await sleep(1000);
+    });
+
+    //Then I click on Save changes
+    this.Then(/^I click on Save changes$/, async function () {
+        let saveChangesButton = await $('input[id="cnep_1D_submit_button"]');
+        expect(saveChangesButton, 'Save changes button was not found');
+        await saveChangesButton.click();
+        await sleep(1000);
+    });
+
+    //Then I click Done button
+    this.Then(/^I click Done button$/, async function () {
+        let doneButton = await driver.findElement(By.partialLinkText('Done'));
+        expect(doneButton, 'Done button was not found');
+        await doneButton.click();
+        await sleep(1000);
+        return true;
+    });
+
+    ///////////////////////////////////
+    //Then I click on my username up in right corner
+    ///////////////////////////////////
+
+    //Then I click on Sign out
+    this.Then(/^then I click on Sign out$/, async function () {
+        await driver.wait(until.elementLocated(By.css('a[role="menuitem"]')));                 
+        let signOutButton = await driver.findElement(By.partialLinkText('Sign out'));
+        expect(signOutButton, '"Account settings" was not found');
+        await signOutButton.click();
+        await sleep(1000);
+    });
+
+    ///////////////////////////////////
+    //When I click on Sign in with IMDb button
+    ///////////////////////////////////
+    //Then I should be taken to sign in page
+    ///////////////////////////////////
+    //Then I click on Email input window
+    ///////////////////////////////////
+    //And type in my email address
+    ///////////////////////////////////
+    //And I click on Password input window
+    ///////////////////////////////////
+
+    //When I type in my new password
+    this.When(/^type in my new password$/, async function () {
+        let inputWindowPassword = await $('input[name="password"]');
+        expect(inputWindowPassword, 'Password input window was not found');
+        await inputWindowPassword.sendKeys("SeleniumNewPW123");
+        await sleep(5000);   
+    });
+
+    ///////////////////////////////////
+    //And click on Sign-In
+    ///////////////////////////////////
+    //Then my username should appear up in right corner
+    ///////////////////////////////////
+
+
+    //================= SCENARIO: 'Change password and log in with new password' ENDS =================
+
+    //================= SCENARIO: 'Change back to old password again' BEGINS =================
+
+
+    ///////////////////////////////////
+    //Given that I am on IMDbs website
+    ///////////////////////////////////
+    //When I click on Sign in button
+    ///////////////////////////////////
+    //Then I should be taken to page with sign in options
+    ///////////////////////////////////
+    //When I click on Sign in with IMDb button
+    ///////////////////////////////////
+    //Then I should be taken to sign in page
+    ///////////////////////////////////
+    //When I click on Email input window
+    ///////////////////////////////////
+    //And type in my email address
+    ///////////////////////////////////
+    //And then click on password input window
+    ///////////////////////////////////
+    
+
+    //And type in the new password
+    this.When(/^type in the new password$/, async function () {
+        let inputWindowPassword = await $('input[name="password"]');
+        expect(inputWindowPassword, 'Password input window was not found');
+        await inputWindowPassword.sendKeys("SeleniumNewPW123");
+        await sleep(5000); 
+    });
+
+    ///////////////////////////////////
+    //And click on Sign-In
+    ///////////////////////////////////
+    //Then I click on my username up in right corner
+    ///////////////////////////////////
+    //And then I click on Account settings
+    ///////////////////////////////////
+    //And then I click on Login & security
+    ///////////////////////////////////
+    //And then I click on Current password input window
+    ///////////////////////////////////
+
+    //Then type in new current password
+    this.Then(/^type in the new current password$/, async function () {
+        let currentPwWindow = await $('input[id="ap_password"]');
+        expect(currentPwWindow, 'Current password input window was not found');
+        await currentPwWindow.sendKeys("SeleniumNewPW123");
+        await sleep(1000);
+    });
+
+    ///////////////////////////////////
+    //And then I click on the new password input window
+    ///////////////////////////////////
+
+    //Then type in old password
+    this.Then(/^type in old password$/, async function () {
+        let newPwWindow = await $('input[id="ap_password_new"]');
+        expect(newPwWindow, 'New password input window was not found');
+        await newPwWindow.sendKeys(password);
+        await sleep(1000);
+    });
+
+    ///////////////////////////////////
+    //Then I click on Reenter new password input window
+    ///////////////////////////////////
+
+    //Then type in old password again
+    this.Then(/^type in old password again$/, async function () {
+        let newPwWindowCheck = await $('input[id="ap_password_new_check"]');
+        expect(newPwWindowCheck, 'Reenter new password input window was not found');
+        await newPwWindowCheck.sendKeys(password);
+        await sleep(1000);
+    });
+
+    ///////////////////////////////////
+    //And I click on Save changes
+    ///////////////////////////////////
+    //And I click on Done button
+    ///////////////////////////////////
+    //Then I click on my username up in right corner
+    ///////////////////////////////////
+    //And then I click on Sign out
+    ///////////////////////////////////
+    //When I click on Sign in with IMDb button
+    ///////////////////////////////////
+    //Then I should be taken to sign in page
+    ///////////////////////////////////
+    //When I click on Email input window
+    ///////////////////////////////////
+    //And type in my email address
+    ///////////////////////////////////
+    //And then click on Password input window
+    ///////////////////////////////////
+    //And type in my password
+    ///////////////////////////////////
+    //And click on Sign-In
+    ///////////////////////////////////
+    //Then my username should appear up in right corner
+    ///////////////////////////////////
+
+    //================= SCENARIO: 'Change back to old password again' ENDS =================
 }
