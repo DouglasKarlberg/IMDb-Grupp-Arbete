@@ -32,4 +32,11 @@ Feature: General
     And click on writer name
     Then It should take me to writers detail page
 
+  Scenario: click on the movie´s star on detail page Interstellar
+    Given that I am on IMDbs website
+    When type the movie name "Interstellar"
+    And to come to movie page press + ENTER
+    Then come to detail page of "Interstellar"
+    And click on stars of movie
+    Then It should take me to stars detail page
 
