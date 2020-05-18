@@ -1,5 +1,6 @@
 let { $, sleep } = require('./funcs');
 const {email, username, password} = require('./credentials.json');
+const {email2, username2, password2} = require('./credentialsSecret.json');
 
 module.exports = function () {
 
@@ -11,7 +12,7 @@ module.exports = function () {
     
     //When I click Sign In button
     this.When(/^I click Sign in button$/, async function () {
-        let imdbSignInButton = await $('a[class="ipc-button ipc-button--single-padding ipc-button--default-height ipc-button--core-baseAlt ipc-button--theme-baseAlt ipc-button--on-textPrimary ipc-text-button imdb-header__signin-text"]');
+        let imdbSignInButton = await driver.findElement(by.linkText('Sign In'));
         expect(imdbSignInButton, 'Sign in button was not found');
         await imdbSignInButton.click();
         await sleep(sleepTime)
@@ -27,7 +28,7 @@ module.exports = function () {
     this.When(/^I click on Sign in with IMDb button$/, async function () {
         let signInWithIMDb = await $('span[class="auth-sprite imdb-logo retina "');
         expect(signInWithIMDb, 'Sign in with IMDb button was not found');
-        signInWithIMDb.click();
+        await signInWithIMDb.click();
         await sleep(sleepTime);
     });
 
@@ -43,15 +44,15 @@ module.exports = function () {
     this.When(/^I click on Email input window$/, async function () {
         let inputWindow = await $('input[name="email"]');
         expect(inputWindow, 'Email input window was not found');
-        inputWindow.click();
+        await inputWindow.click();
     });
 
     //When type in my email address
     this.When(/^type in my email address$/, async function () {
         let inputWindowEmail = await $('input[name="email"]');
         expect(inputWindowEmail, 'Email input window was not found');
-        inputWindowEmail.sendKeys(email);
-        await sleep(sleepTime);
+        await inputWindowEmail.sendKeys(email);         //Type in first part of email which comes from credentialsP1.json
+        await sleep(5000);                          //Wait 4 seconds
     });
 
     //And then click on password input window
@@ -64,15 +65,15 @@ module.exports = function () {
     this.When(/^type in my password$/, async function () {
         let inputWindowPassword = await $('input[name="password"]');
         expect(inputWindowPassword, 'Password input window was not found');
-        inputWindowPassword.sendKeys(password);
-        await sleep(sleepTime);
+        await inputWindowPassword.sendKeys(password);   //Type in first part of password which comes from credentialsP1.json
+        await sleep(5000);                          //Wait 4 seconds
     });
 
     //And click on Sign-In
     this.When(/^click on Sign\-In$/, async function () {
         let signInButton = await $('input[id="signInSubmit"]');
         expect(signInButton, 'Sign-In button was not found');
-        signInButton.click();
+        await signInButton.click();
         await sleep(sleepTime);
     });
 
@@ -132,7 +133,7 @@ module.exports = function () {
         let inputWindowPassword = await $('input[name="password"]');
         expect(inputWindowPassword, 'Password input window was not found');
         expect(wrongPassword).to.not.equal(password, 'wrongPassword was equal to password');
-        inputWindowPassword.sendKeys(wrongPassword);
+        await inputWindowPassword.sendKeys(wrongPassword);
         await sleep(sleepTime);
     });
 
@@ -144,4 +145,134 @@ module.exports = function () {
     });
 
     //================= SCENARIO: 'Sign in with IMDB with correct email and wrong password' ENDS =================
+
+    //================= SCENARIO: 'Add and change bio text on edit profile' BEGINS =================´
+
+    ///////////////////////////////////
+    //Given that I am on IMDbs website
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //When I click Sign in button
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //Then I should be taken to page with sign in options
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //When I click on Sign in with IMDb button
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //Then I should be taken to sign in page
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //When I click on Email input window
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //And type in my email address
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //And then click on Password input window
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //And type in my password
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //And click on Sign-In
+    ///////////////////////////////////
+
+    //Then I click on my username up in right corner
+    this.Then(/^I click on my username up in right corner$/, async function () {
+        await sleep(3000);
+        let userNameToggleMenu = await $('label[aria-label="Toggle Acount Menu"]')//Since there are 2 label[aria-label="Toggle Acount Menu"] in an array
+        expect(userNameToggleMenu, 'Toggle Acount Menu was not found');
+        userNameToggleMenu[1].click();                                            //I click on the second element instead of the first one, because the second element highlights the button
+        await sleep(2000);
+    });
+
+    //Then I click on Your activity
+    this.Then(/^then I click on Your activity$/, async function () {
+        await driver.wait(until.elementLocated(By.css('a[role="menuitem"]')));                 //Wait for a[role="menuitem"] to be located before step continues
+        let yourActivityButton = await driver.findElement(By.partialLinkText('Your activity'));//I find the button through it's link text which is 'Your activity' and send it to 'yourActivityButton'
+        expect(yourActivityButton, '"Your Activity" was not found');
+        await yourActivityButton.click();
+        await sleep(1500);    
+    });
+
+    //Then I click on Edit profile
+    this.Then(/^then I click on Edit profile$/, async function () {   
+        await driver.wait(until.elementLocated(By.css('div[class="aux-content-widget-2"]')));
+        let editProfileButton = await driver.findElement(By.partialLinkText('Edit profile'));//Find element with partial link text 'Edit profile'
+        expect(editProfileButton, 'Edit profile was not found');
+        await editProfileButton.click();
+        await sleep(1500);
+    });
+
+    //Then I click on bio input window
+    this.Then(/^then I click on bio input window$/, async function () {
+        await driver.wait(until.elementLocated(By.css('div[data-userbio]')));
+        let bioTextWindow = await $('textarea[name="bio"]');
+        expect(bioTextWindow, 'Bio text window was not found');
+        await bioTextWindow.click();
+        await sleep(3000);
+    });
+
+    //Then I type in any sample text into the bio
+    this.Then(/^I type in any sample text into the bio$/, async function () {
+        let bioTextWindow = await $('textarea[name="bio"]');
+        expect(bioTextWindow, 'Bio text window was not found');
+        await bioTextWindow.sendKeys("Sample text bio");
+        await sleep(2000);
+    });
+
+    //Then I click on Save Description
+    this.Then(/^then I click on Save Description$/, async function () {
+        //let saveDescButton = await $('div[class="user-bio-actions"]');
+        let saveDescButton2 = await $('div[class="auth-button-link auth-button--primary"]');
+        expect(saveDescButton2, 'Save Description button was not found');
+        await saveDescButton2.click();
+        await sleep(2000);
+    });
+
+    //Then my sample text should appear on my profile
+    this.Then(/^then my sample text should appear on my profile$/, async function () {
+        await driver.wait(until.elementLocated(By.css('div[class="header"]')));
+        let bioText = await $('div[class="toggle-overflow biography markdown"]');
+        expect(bioText, 'Bio text was not found');
+        let bioTextGetText = await bioText.getText();
+        expect(bioTextGetText).to.equal("Sample text bio", 'bio text did not match what was written');
+        await sleep(500);
+    });
+
+    ///////////////////////////////////
+    //Then I click on Edit profile
+    ///////////////////////////////////
+
+    ///////////////////////////////////
+    //Then I click on bio input window
+    ///////////////////////////////////
+
+    //Then I remove already existing bio and replace it with new sample text
+    this.Then(/^I remove already existing bio and replace it with new sample text$/, async function () {
+        await driver.wait(until.elementLocated(By.css('div[data-userbio]')));
+        let bioTextWindow = await $('textarea[name="bio"]');
+        expect(bioTextWindow, 'Bio Text Window was not found');
+        bioTextWindow.sendKeys(selenium.Key.CONTROL, 'a');
+        await sleep(1000);
+        bioTextWindow.sendKeys(selenium.Key.DELETE);
+        await sleep(3000);
+    });
+
+    ///////////////////////////////////
+    //Then I click on Save Description
+    ///////////////////////////////////
+    
+    //================= SCENARIO: 'Add and change bio text on edit profile' ENDS =================
 }
