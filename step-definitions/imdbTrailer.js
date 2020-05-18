@@ -71,7 +71,23 @@ module.exports = function () {
 
   });
 
+  this.Given(/^that I am on a trailers page$/, async function () {
+    await helpers.loadPage('https://www.imdb.com/title/tt6156584/?ref_=vp_vi_tt');
+    await sleep(3000);
+  });
+
+  this.When(/^I click on the add icon left to the movie list, it would ask to sign in first$/, async function () {
+    let clickToAddButton = await $('div[class="primary_ribbon"]');
+    expect(clickToAddButton, 'add button was not found');
+    await clickToAddButton.click();
+    await sleep(5000);
+  });
+
+  this.When(/^I will be able to see my recent viewed list by visiting 'Watchlist'$/, async function () {
+    let clickToseeButton = await $('a[class="ipc-button ipc-button--single-padding ipc-button--default-height ipc-button--core-baseAlt ipc-button--theme-baseAlt ipc-button--on-textPrimary ipc-text-button"]');
+    expect(clickToseeButton, 'add button was not found');
+    await clickToseeButton.click();
+    await sleep(2000);
+  });
+
 }
-
-
-
