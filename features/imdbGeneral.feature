@@ -24,3 +24,12 @@ Feature: General
     When I click on on top news
     Then It should take me to detail page
 
+  Scenario: Search for the move Home Alone and load result of writer
+    Given that I am on IMDbs website
+    When I type movie name "Home Alone"
+    And then press + ENTER
+    Then It should taken me to detail page of "Home Alone"
+    And click on writer name
+    Then It should take me to writers detail page
+
+
