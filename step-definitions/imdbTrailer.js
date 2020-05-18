@@ -11,8 +11,9 @@ module.exports = function () {
   /////////////////////////////////////
 
   this.When(/^I click to browse trailers$/, async function () {
-    await helpers.loadPage('https://www.imdb.com/trailers/?ref_=hm_hp_sm');       //Load an IMDB URL browse trailers' page
-    await sleep(3000);                                                            //delays here is set to 3 seconds
+    let trailersButton = await $('a[class="ipc-link ipc-link--baseAlt AutorotateVideoCarouselstyles__BrowseTrailersLink-uu2ba1-4 iBfKYG"]');  //assign 'trailersButton' to the query selector
+    expect(trailersButton, 'browse trailers button was not found');                                                                           //throws an error if the query selector was not found by using expect
+    await trailersButton.click();                                                                                                             //click method, when 'Browse trailers has been clicked
   });
 
 
@@ -56,7 +57,7 @@ module.exports = function () {
   
   });*/
 
-  //================= 'I wanted to find out more about the trailer's movie' =================
+  //================= 'SCENARIO: I wanted to find out more about the trailer's movie' =================
 
   this.When(/^click on any trailer$/, async function () {
     await helpers.loadPage('https://www.imdb.com/video/vi686013977?ref_=vi_tr_tr_vp_2');       //Load an IMDB URL browse trailers' page
@@ -71,7 +72,25 @@ module.exports = function () {
 
   });
 
+  //================= 'SCENARIO: When visitng a trailer's page, I will be able to add to my 'Watchlist' and view it.' =================
+
+  this.Given(/^that I am on a trailers page$/, async function () {
+    await helpers.loadPage('https://www.imdb.com/title/tt6156584/?ref_=vp_vi_tt');      //Load a movie trailer's page
+    await sleep(3000);                                                                  //delays here is set to 3 seconds
+  });
+
+  this.When(/^I click on the add icon left to the movie list, it would ask to sign in first$/, async function () {
+    let clickToAddButton = await $('div[class="primary_ribbon"]');  //assign 'clickToAddButton' to the query selector
+    expect(clickToAddButton, 'add button was not found');           //throws an error if query selector was not found by using expect
+    await clickToAddButton.click();                                 //click method, when click, it should take me to sign in page
+    await sleep(5000);                                              //delays here is set to 5 seconds
+  });
+
+  this.When(/^I will be able to see my recent viewed list by visiting 'Watchlist'$/, async function () {
+    let clickToseeButton = await $('a[class="ipc-button ipc-button--single-padding ipc-button--default-height ipc-button--core-baseAlt ipc-button--theme-baseAlt ipc-button--on-textPrimary ipc-text-button"]');   //assign 'clickToseeButton' to the query selector
+    expect(clickToseeButton, 'add button was not found');                                                                                                                                                          //throws an error if query selector was not found by using expect
+    await clickToseeButton.click();                                                                                                                                                                                //click method, when click, it should take me to 'Watchlist' page
+    await sleep(2000);                                                                                                                                                                                             //delays here is set to 2 seconds
+  });
+
 }
-
-
-
