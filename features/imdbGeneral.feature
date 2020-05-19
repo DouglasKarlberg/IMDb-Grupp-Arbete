@@ -40,3 +40,10 @@ Feature: General
     And click on stars of movie
     Then It should take me to stars detail page
 
+  Scenario: visit movie´s director on detail page Fight Club
+    Given that I am on IMDbs website
+    When search for the movie name "Fight Club"
+    And come to movie press + ENTER
+    Then get to detail page of "Fight Club"
+    And click on Director of movie
+    Then should see detail page of Director of movie
