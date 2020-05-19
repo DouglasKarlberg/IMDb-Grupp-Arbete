@@ -20,6 +20,7 @@ module.exports = function () {
 
     //Then I should be taken to page with sign in options
     this.Then(/^I should be taken to page with sign in options$/, async function () {
+        await driver.wait(until.elementLocated(By.css('div[id="signin-options"]')));
         let signInWithIMDb = await $('span[class="auth-sprite imdb-logo retina "');
         expect(signInWithIMDb, 'Sign in with IMDb button was not found');
     });
