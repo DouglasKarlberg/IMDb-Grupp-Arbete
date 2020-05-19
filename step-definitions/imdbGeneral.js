@@ -162,4 +162,48 @@ module.exports = function () {
     expect(starDetail, 'Doesn´t exist');
     await sleep(1000);
   });
+
+  //------------end of stars of movie--------------------
+
+  //---------------------Start director of movie--------------------
+  this.When(/^search for the movie name "([^"]*)"$/, async function (inputText) {
+    let searchMovieName = await $('input[placeholder="Search IMDb"]'); //searchMovieName receives document.querySelector('input[placeholder="Search IMDb"]')
+    expect(searchMovieName, "Search Field was not found"); //Expect searchMovieName to exist/be true or basically not false or null
+    await searchMovieName.sendKeys(inputText); //Send keys "The Shining" to searchMovieName
+    await sleep(500); //Delay 0.5 seconds (Probably not necessary)
+  });
+
+  this.When(/^come to movie press \+ ENTER$/, async function () {
+    let imdbSearchField = await $('input[placeholder="Search IMDb"'); //imdbSearchField receives document.querySelector('input[placeholder="Search IMDb"]')
+    await sleep(1000); //Delay 1 Seond OBSERVE! This is necessary for it takes around <1 second for suggestions to load
+    await imdbSearchField.sendKeys(selenium.Key.ARROW_DOWN); //Send key ARROW_DOWN to imdbSearchField
+    await sleep(sleepTime); //Delay
+    await imdbSearchField.sendKeys(selenium.Key.ENTER); //Send key ENTER to imdbSearchField
+    await sleep(sleepTime); //Delay
+  });
+
+  this.Then(/^get to detail page of "([^"]*)"$/, async function (inputText) {
+    await driver.wait(until.elementLocated(By.css(".title_wrapper"))); //Wait for element css '.title_wrapper' to be located (basically just wait for it to load)
+    //This wait method is used because it's not a garantee that the detail page will load at
+    //the same speed on different computers, so use this is a better alternative to sleep mehtod
+    let titleWrapper = await $('div[class="title_wrapper"]'); //'titleWrapper' receives document.querySelector('div[class="title_wrapper"]')
+    let titleWrapperGetText = await titleWrapper.getText(); //titleWrapperGetText receives text content from within titleWrapper
+    titleWrapperSliced = titleWrapperGetText.slice(0, 10); //titleWrapperSliced receives titleWrapperGetText's string but sliced to "Fight Club"
+    expect(titleWrapperSliced).to.include(inputText); //Expect titleWrapperSliced to include inputText which is "Fight Club"
+    await sleep(3000); //Delay
+  });
+
+  this.Then(/^click on Director of movie$/, async function () {
+    let clickWriterName = await driver.findElement(By.linkText('David Fincher'));
+    expect(clickWriterName, 'couldn´t find top news');
+    await clickWriterName.click();
+    await sleep(3000);
+  });
+
+  this.Then(/^should see detail page of Director of movie$/, async function () {
+    let writerDetail = await $('h1[class="news-page__title"]');
+    expect(writerDetail, 'Doesn´t exist');
+    await sleep(1000);
+  });
+
 };
