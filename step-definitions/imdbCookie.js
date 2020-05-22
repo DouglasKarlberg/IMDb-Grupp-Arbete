@@ -4,46 +4,147 @@ module.exports = function () {
 
   let sleepTime = 0;
 
-  //================= SCENARIO: 'Clear my history from recently viewed movie's page' =================
+  //================= SCENARIO: 'Remove a recently viewed movie' BEGINS =================
 
-  this.Given(/^that I load detail's page for a film$/, async function () {
-    await helpers.loadPage('https://www.imdb.com/title/tt6751668/?ref_=hm_rvi_tt');       //Load a chosen movie detail's page
-    await sleep(sleepTime);                                                                    //delays here is set to 2 seconds
-  });
+  /////////////////////////////////////
+  //Given that I am on IMDbs website
+  /////////////////////////////////////
+  //When I type search text "Parasite"
+  /////////////////////////////////////
+  //And then press down arrow + ENTER
+  /////////////////////////////////////
+  //Then I should be taken to the detail page of "Parasite"
+  /////////////////////////////////////
 
-  this.When(/^clicking on 'IMDb' brand logo to load startpage$/, async function () {
-    await driver.wait(until.elementLocated(By.css('svg[id="home_img"]')));
-    let logoButton = await driver.findElement(By.css('#home_img_holder'));    //assigns css element by using findElement to variable logoButton
-    expect(logoButton, 'Logo button was not found');                          //throws an error if css element was not found by using expect
-    await logoButton.click();                                                 //click method, when click, redirects page to the start page
-    await sleep(sleepTime);                                                   
-  });
-
-  this.Then(/^by clicking 'Clear all', all recently viewed will be cleared$/, async function () {
-    await driver.wait(until.elementLocated(By.css('div[class="recently-viewed"]')));
+  //When I browse the detail page a little
+  this.When(/^I browse the detail page a little$/, async function () {
+    await driver.wait(until.elementLocated(By.css('div[class="title_block"]')));
     let pagebody = await $('body');
+    await sleep(1000);
     pagebody.sendKeys(selenium.Key.PAGE_DOWN);
-    await sleep(200);
+    await sleep(600);
     pagebody.sendKeys(selenium.Key.PAGE_DOWN);
-    let clearTextButton = await driver.wait(until.elementLocated(By.linkText('Clear all')));  //assign the link text by using elemntLocated to variable clearTextButton
-    expect(clearTextButton, 'clear all button was not found');                                //throws an error if element was not found by using expect
-    await clearTextButton.click();                                                            //click method, when click, clear what has been viewed recently from the list of 'Recently viewed'
-    await sleep(sleepTime);                                                                        //delays here is set to 3 seconds
+    await sleep(600);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(600);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(600);
+    pagebody.sendKeys(selenium.Key.PAGE_UP);
+    await sleep(600);
+    pagebody.sendKeys(selenium.Key.PAGE_UP);
+    await sleep(600);
+    pagebody.sendKeys(selenium.Key.PAGE_UP);
+    await sleep(600);
   });
 
-  //================= SCENARIO: 'Visit a recently viewed movie' =================
+  //And then click home button
+  this.When(/^then click home button$/, async function () {
+    let homeButton = await $('a[id="home_img_holder"]');
+    await homeButton.click();
+    await sleep(3000);
+  });
 
-  this.Then(/^click on the card under 'Recently viewed' for the movie's page you just left$/, async function () {
+  //Then Startpage should load
+  this.Then(/^startpage should load$/, async function () {
+    await driver.wait(until.elementLocated(By.css('div[id="ipc-wrap-background-id"]')));
+    await sleep(1000);
+  });
+
+  //When I scroll down to recently viewed
+  this.When(/^I scroll down to recently viewed$/, async function () {
     let pagebody = await $('body');
+    await sleep(1000);
     pagebody.sendKeys(selenium.Key.PAGE_DOWN);
-    await sleep(200);
+    await sleep(600);
     pagebody.sendKeys(selenium.Key.PAGE_DOWN);
-    await sleep(200);
-    await driver.wait(until.elementLocated(By.css('div[class="recently-viewed"]')));
-    let recentViewdButton = await driver.wait(until.elementLocated(By.linkText('Gisaengchung')));   //assign the link text by using elemntLocated to variable recentViewdButton
-    expect(recentViewdButton, 'Recent Viewed button was not found');                                //throws an error if css element was not found by using expect
-    await recentViewdButton.click();                                                                //click method, when click, redirects to the viewed recently for movie detail's page I just visited
+    await sleep(800);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(800);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+  });
+
+  //And then click on clear all button
+  this.When(/^then click on clear all button$/, async function () {
+    let clearAll = await driver.findElement(by.linkText('Clear all'));
+    expect(clearAll, 'Clear all button was not found');
+    await clearAll.click();
+    await sleep(3000);
+  });
+
+  //Then message "You have no recently viewed pages"
+  this.Then(/^message "([^"]*)" should appear$/, async function (noRecentlyViewed) {
+    let recentlyViewedContent = await $('div[class="recently-viewed"]');
+    let recentlyViewedGetText = await recentlyViewedContent.getText();
+    let recentlyViewedSliced = await recentlyViewedGetText.slice(16, 49);
+    expect(recentlyViewedSliced).to.include(noRecentlyViewed, 'Recently viewed was not cleared or found');
     await sleep(sleepTime);
-    await driver.wait(until.elementLocated(By.css('div[class="title_block"]')));                                                               
   });
+
+  //================= SCENARIO: 'Remove a recently viewed movie' ENDS =================
+
+  //================= SCENARIO: 'Visit a recently viewed movie and the remove it' BEGINS =================
+
+  /////////////////////////////////////
+  //Given that I am on IMDbs website
+  /////////////////////////////////////
+  //When I type search text "Parasite"
+  /////////////////////////////////////
+  //And then press down arrow + ENTER
+  /////////////////////////////////////
+  //Then I should be taken to the detail page of "Parasite"
+  /////////////////////////////////////
+  //When i browse detail page a little
+  /////////////////////////////////////
+  //And then click on home button
+  /////////////////////////////////////
+  //When I scroll down to recently viewed
+  /////////////////////////////////////
+
+  //And then click on recently viewed movies
+  this.When(/^then click on the recently viewed movie$/, async function () {
+    let parasiteCard = await driver.findElement(by.linkText('Gisaengchung'));
+    expect(parasiteCard, 'The recently viewed movie was not found');
+    await parasiteCard.click();
+    await sleep(3000);
+  });
+
+  /////////////////////////////////////
+  //Then I hsould be taken to the detail page of Parasite
+  /////////////////////////////////////
+  
+  //When I scroll down to recently viewed on detail page
+  this.When(/^I scroll down to recently viewed on detail page$/, async function () {
+    let pagebody = await $('body');
+    await sleep(1000);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(600);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(800);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(800);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(800);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+    await sleep(800);
+    pagebody.sendKeys(selenium.Key.PAGE_DOWN);
+  });
+
+  //And click on clear all
+  this.When(/^click on clear all$/, async function () {
+    let clearHistory = await driver.findElement(by.linkText('Clear your history'));
+    expect(clearHistory, 'Clear your history button was not found');
+    await clearHistory.click();
+    await sleep(3000);
+  });
+
+  /////////////////////////////////////
+  //And then click on home button
+  /////////////////////////////////////
+  //Then startpage should load
+  /////////////////////////////////////
+  //When I scroll down to recently viewed
+  /////////////////////////////////////
+  //Then message "You have no recently viewed pages" should appear
+
+  //================= SCENARIO: 'Visit a recently viewed movie and the remove it' ENDS =================
 }
